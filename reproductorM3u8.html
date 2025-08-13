@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transmisión Familiar - Reproductor Moderno</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .player-container {
+      background: rgba(0, 0, 0, 0.9);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      max-width: 1200px;
+      width: 100%;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .player-header {
+      background: linear-gradient(90deg, #ff6b6b, #ee5a24);
+      padding: 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .player-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      animation: shine 3s infinite;
+    }
+
+    @keyframes shine {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+
+    .player-title {
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      margin-bottom: 5px;
+    }
+
+    .player-subtitle {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 14px;
+    }
+
+    .video-wrapper {
+      position: relative;
+      background: #000;
+      aspect-ratio: 16/9;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .loading-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: white;
+      z-index: 10;
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-top: 4px solid #ff6b6b;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .controls-panel {
+      background: linear-gradient(90deg, #2c3e50, #34495e);
+      padding: 20px;
+    }
+
+    .control-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .control-btn {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border: none;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .control-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .control-btn:active {
+      transform: translateY(0);
+    }
+
+    .control-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .fullscreen-btn {
+      background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    }
+
+    .cast-btn {
+      background: linear-gradient(135deg, #10ac84, #1dd1a1);
+    }
+
+    .cast-btn.casting {
+      background: linear-gradient(135deg, #e74c3c, #c0392b);
+      animation: castActive 2s infinite;
+    }
+
+    @keyframes castActive {
+      0%, 100% { box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4); }
+      50% { box-shadow: 0 6px 25px rgba(231, 76, 60, 0.6); }
+    }
+
+    .quality-selector {
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .quality-selector label {
+      color: white;
+      margin-right: 10px;
+      font-weight: bold;
+    }
+
+    .quality-selector select {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+
+    .error-message {
+      background: linear-gradient(135deg, #e74c3c, #c0392b);
+      color: white;
+      padding: 15px;
+      text-align: center;
+      border-radius: 10px;
+      margin: 20px;
+      display: none;
+    }
+
+    .status-indicator {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .status-live {
+      width: 8px;
+      height: 8px;
+      background: #e74c3c;
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+      
+      .player-title {
+        font-size: 18px;
+      }
+      
+      .control-buttons {
+        gap: 10px;
+      }
+      
+      .control-btn {
+        padding: 10px 15px;
+        font-size: 12px;
+      }
+    }
+
+    /* Fullscreen styles - CORREGIDO */
+    .player-container:-webkit-full-screen,
+    .player-container:-moz-full-screen,
+    .player-container:fullscreen {
+      width: 100vw !important;
+      height: 100vh !important;
+      max-width: none !important;
+      border-radius: 0 !important;
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      z-index: 9999 !important;
+    }
+
+    .player-container:-webkit-full-screen .video-wrapper,
+    .player-container:-moz-full-screen .video-wrapper,
+    .player-container:fullscreen .video-wrapper {
+      aspect-ratio: auto !important;
+      height: calc(100vh - 120px) !important;
+    }
+
+    .cast-available {
+      animation: castPulse 2s infinite;
+    }
+
+    @keyframes castPulse {
+      0%, 100% { background: linear-gradient(135deg, #10ac84, #1dd1a1); }
+      50% { background: linear-gradient(135deg, #1dd1a1, #10ac84); }
+    }
+
+    /* Notification styles */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 15px 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      z-index: 10000;
+      animation: slideInRight 0.3s ease;
+      max-width: 300px;
+    }
+
+    @keyframes slideInRight {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes slideOutRight {
+      from { transform: translateX(0); opacity: 1; }
+      to { transform: translateX(100%); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="player-container" id="playerContainer">
+    <div class="player-header">
+      <div class="player-title">
+        <i class="fas fa-play-circle"></i> Transmisión Familiar Los Carepelota
+      </div>
+      <div class="player-subtitle">Reproductor de video en vivo! </div>
+      <p>U de Chile Vs. Independiente</p>
+    </div>
+
+    <div class="video-wrapper">
+      <video id="video" playsinline webkit-playsinline></video>
+      
+      <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <div>Cargando transmisión...</div>
+      </div>
+
+      <div class="status-indicator">
+        <div class="status-live"></div>
+        EN VIVO DESDE JFUT
+      </div>
+    </div>
+
+    <div class="controls-panel">
+      <div class="control-buttons">
+        <button class="control-btn" id="playPauseBtn">
+          <i class="fas fa-play"></i> Reproducir
+        </button>
+        <button class="control-btn" id="muteBtn">
+          <i class="fas fa-volume-up"></i> Silenciar
+        </button>
+        <button class="control-btn fullscreen-btn" id="fullscreenBtn">
+          <i class="fas fa-expand"></i> Pantalla Completa
+        </button>
+        <button class="control-btn cast-btn" id="castBtn">
+          <i class="fas fa-chromecast"></i> Chromecast
+        </button>
+        <button class="control-btn" id="reloadBtn">
+          <i class="fas fa-sync-alt"></i> Recargar
+        </button>
+      </div>
+
+      <div class="quality-selector">
+        <label for="qualitySelect">Calidad:</label>
+        <select id="qualitySelect">
+          <option value="auto">Automática</option>
+          <option value="1080p">1080p</option>
+          <option value="720p">720p</option>
+          <option value="480p">480p</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="error-message" id="errorMessage">
+      <i class="fas fa-exclamation-triangle"></i>
+      Error al cargar la transmisión. Por favor, intenta recargar.
+    </div>
+  </div>
+
+  <!-- Google Cast SDK -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.4.12/hls.min.js"></script>
+  <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
+  
+  <script>
+    class ModernM3U8Player {
+      constructor() {
+        this.video = document.getElementById('video');
+        this.hls = null;
+        this.isFullscreen = false;
+        this.isCasting = false;
+        this.castSession = null;
+        this.streamUrl = "https://bgfuzq.fubohd.com/espnmx/mono.m3u8?token=2ad90caa4cff1dd2f4ef2b8a6150dbf268950577-c5-1755121202-1755103202";
+        
+        this.initializePlayer();
+        this.setupEventListeners();
+        this.initializeChromecast();
+      }
+
+      initializePlayer() {
+        if (Hls.isSupported()) {
+          this.hls = new Hls({
+            enableWorker: true,
+            lowLatencyMode: true,
+            backBufferLength: 90
+          });
+          
+          this.hls.loadSource(this.streamUrl);
+          this.hls.attachMedia(this.video);
+          
+          this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
+            this.hideLoading();
+            this.video.play().catch(e => console.log('Autoplay prevented'));
+          });
+
+          this.hls.on(Hls.Events.ERROR, (event, data) => {
+            console.error('HLS Error:', data);
+            if (data.fatal) {
+              this.showError();
+            }
+          });
+
+        } else if (this.video.canPlayType('application/vnd.apple.mpegurl')) {
+          this.video.src = this.streamUrl;
+          this.video.addEventListener('loadedmetadata', () => {
+            this.hideLoading();
+            this.video.play().catch(e => console.log('Autoplay prevented'));
+          });
+        } else {
+          this.showError();
+        }
+
+        // Video event listeners
+        this.video.addEventListener('play', () => this.updatePlayButton(true));
+        this.video.addEventListener('pause', () => this.updatePlayButton(false));
+        this.video.addEventListener('volumechange', () => this.updateMuteButton());
+      }
+
+      setupEventListeners() {
+        // Play/Pause button
+        document.getElementById('playPauseBtn').addEventListener('click', () => {
+          if (this.video.paused) {
+            this.video.play();
+          } else {
+            this.video.pause();
+          }
+        });
+
+        // Mute button
+        document.getElementById('muteBtn').addEventListener('click', () => {
+          this.video.muted = !this.video.muted;
+        });
+
+        // Fullscreen button - CORREGIDO
+        document.getElementById('fullscreenBtn').addEventListener('click', () => {
+          this.toggleFullscreen();
+        });
+
+        // Cast button
+        document.getElementById('castBtn').addEventListener('click', () => {
+          this.toggleCast();
+        });
+
+        // Reload button
+        document.getElementById('reloadBtn').addEventListener('click', () => {
+          this.reloadStream();
+        });
+
+        // Quality selector
+        document.getElementById('qualitySelect').addEventListener('change', (e) => {
+          this.changeQuality(e.target.value);
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+          if (e.code === 'Space') {
+            e.preventDefault();
+            if (this.video.paused) {
+              this.video.play();
+            } else {
+              this.video.pause();
+            }
+          } else if (e.code === 'KeyF') {
+            this.toggleFullscreen();
+          } else if (e.code === 'KeyM') {
+            this.video.muted = !this.video.muted;
+          } else if (e.code === 'Escape' && this.isFullscreen) {
+            this.exitFullscreen();
+          }
+        });
+
+        // Fullscreen change events - CORREGIDO
+        document.addEventListener('fullscreenchange', () => this.handleFullscreenChange());
+        document.addEventListener('webkitfullscreenchange', () => this.handleFullscreenChange());
+        document.addEventListener('mozfullscreenchange', () => this.handleFullscreenChange());
+        document.addEventListener('MSFullscreenChange', () => this.handleFullscreenChange());
+      }
+
+      // MÉTODO CORREGIDO para manejar cambios de pantalla completa
+      handleFullscreenChange() {
+        this.isFullscreen = !!(
+          document.fullscreenElement ||
+          document.webkitFullscreenElement ||
+          document.mozFullScreenElement ||
+          document.msFullscreenElement
+        );
+        this.updateFullscreenButton();
+      }
+
+      // MÉTODO CORREGIDO para pantalla completa
+      toggleFullscreen() {
+        if (!this.isFullscreen) {
+          this.enterFullscreen();
+        } else {
+          this.exitFullscreen();
+        }
+      }
+
+      enterFullscreen() {
+        const container = document.getElementById('playerContainer');
+        
+        if (container.requestFullscreen) {
+          container.requestFullscreen();
+        } else if (container.webkitRequestFullscreen) {
+          container.webkitRequestFullscreen();
+        } else if (container.mozRequestFullScreen) {
+          container.mozRequestFullScreen();
+        } else if (container.msRequestFullscreen) {
+          container.msRequestFullscreen();
+        }
+      }
+
+      exitFullscreen() {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+          document.mozCancelFullScreen();
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
+        }
+      }
+
+      // CHROMECAST REAL - CORREGIDO
+      initializeChromecast() {
+        window.__onGCastApiAvailable = (isAvailable) => {
+          if (isAvailable) {
+            this.setupCastContext();
+          }
+        };
+      }
+
+      setupCastContext() {
+        const context = cast.framework.CastContext.getInstance();
+        
+        context.setOptions({
+          receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID,
+          autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED
+        });
+
+        // Listener para cambios de estado de cast
+        context.addEventListener(
+          cast.framework.CastContextEventType.CAST_STATE_CHANGED,
+          (event) => {
+            switch (event.castState) {
+              case cast.framework.CastState.CONNECTED:
+                this.onCastConnected();
+                break;
+              case cast.framework.CastState.NOT_CONNECTED:
+                this.onCastDisconnected();
+                break;
+            }
+          }
+        );
+
+        // Mostrar que Chromecast está disponible
+        const castBtn = document.getElementById('castBtn');
+        castBtn.classList.add('cast-available');
+        castBtn.disabled = false;
+      }
+
+      toggleCast() {
+        const context = cast.framework.CastContext.getInstance();
+        
+        if (context.getCastState() === cast.framework.CastState.CONNECTED) {
+          context.endCurrentSession(true);
+        } else {
+          context.requestSession().then(
+            () => {
+              this.startCasting();
+            },
+            (error) => {
+              console.error('Error al iniciar Cast:', error);
+              this.showNotification('Error al conectar con Chromecast');
+            }
+          );
+        }
+      }
+
+      startCasting() {
+        const context = cast.framework.CastContext.getInstance();
+        const session = context.getCurrentSession();
+        
+        if (session) {
+          const mediaInfo = new chrome.cast.media.MediaInfo(this.streamUrl, 'application/x-mpegURL');
+          mediaInfo.metadata = new chrome.cast.media.GenericMediaMetadata();
+          mediaInfo.metadata.title = 'Transmisión Familiar';
+          mediaInfo.metadata.subtitle = 'En vivo desde JFUT';
+          
+          const request = new chrome.cast.media.LoadRequest(mediaInfo);
+          
+          session.loadMedia(request).then(
+            () => {
+              this.video.pause(); // Pausar video local
+              this.showNotification('Transmitiendo a TV');
+            },
+            (error) => {
+              console.error('Error al cargar media en Cast:', error);
+              this.showNotification('Error al transmitir');
+            }
+          );
+        }
+      }
+
+      onCastConnected() {
+        this.isCasting = true;
+        const castBtn = document.getElementById('castBtn');
+        castBtn.innerHTML = '<i class="fas fa-chromecast"></i> Desconectar Cast';
+        castBtn.classList.add('casting');
+        this.showNotification('Conectado a Chromecast');
+      }
+
+      onCastDisconnected() {
+        this.isCasting = false;
+        const castBtn = document.getElementById('castBtn');
+        castBtn.innerHTML = '<i class="fas fa-chromecast"></i> Chromecast';
+        castBtn.classList.remove('casting');
+        this.showNotification('Desconectado de Chromecast');
+      }
+
+      changeQuality(quality) {
+        if (this.hls && quality !== 'auto') {
+          // Simulate quality change
+          this.showNotification(`Cambiando a calidad: ${quality}`);
+        }
+      }
+
+      reloadStream() {
+        this.showLoading();
+        if (this.hls) {
+          this.hls.destroy();
+          this.initializePlayer();
+        } else {
+          this.video.load();
+        }
+        this.showNotification('Recargando transmisión...');
+      }
+
+      updatePlayButton(isPlaying) {
+        const btn = document.getElementById('playPauseBtn');
+        if (isPlaying) {
+          btn.innerHTML = '<i class="fas fa-pause"></i> Pausar';
+        } else {
+          btn.innerHTML = '<i class="fas fa-play"></i> Reproducir';
+        }
+      }
+
+      updateMuteButton() {
+        const btn = document.getElementById('muteBtn');
+        if (this.video.muted) {
+          btn.innerHTML = '<i class="fas fa-volume-mute"></i> Activar Audio';
+        } else {
+          btn.innerHTML = '<i class="fas fa-volume-up"></i> Silenciar';
+        }
+      }
+
+      updateFullscreenButton() {
+        const btn = document.getElementById('fullscreenBtn');
+        if (this.isFullscreen) {
+          btn.innerHTML = '<i class="fas fa-compress"></i> Salir Pantalla Completa';
+        } else {
+          btn.innerHTML = '<i class="fas fa-expand"></i> Pantalla Completa';
+        }
+      }
+
+      showLoading() {
+        document.getElementById('loadingOverlay').style.display = 'flex';
+      }
+
+      hideLoading() {
+        document.getElementById('loadingOverlay').style.display = 'none';
+      }
+
+      showError() {
+        this.hideLoading();
+        document.getElementById('errorMessage').style.display = 'block';
+      }
+
+      showNotification(message) {
+        // Remove existing notifications
+        const existingNotifications = document.querySelectorAll('.notification');
+        existingNotifications.forEach(notif => notif.remove());
+        
+        // Create new notification
+        const notification = document.createElement('div');
+        notification.className = 'notification';
+        notification.textContent = message;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+          notification.style.animation = 'slideOutRight 0.3s ease';
+          setTimeout(() => {
+            if (notification.parentNode) {
+              notification.parentNode.removeChild(notification);
+            }
+          }, 300);
+        }, 3000);
+      }
+    }
+
+    // Initialize player when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      new ModernM3U8Player();
+    });
+  </script>
+</body>
+</html>
