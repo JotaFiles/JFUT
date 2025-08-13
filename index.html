@@ -81,36 +81,6 @@
             transition: all 0.3s ease;
         }
 
-        /* Theater Mode Styles */
-        .theater-mode .container {
-            max-width: none;
-            padding: 10px;
-        }
-
-        .theater-mode .header {
-            padding: 10px 0;
-            margin-bottom: 15px;
-        }
-
-        .theater-mode .main-content {
-            grid-template-columns: 1fr;
-            gap: 0;
-        }
-
-        .theater-mode .matches-sidebar {
-            display: none;
-        }
-
-        .theater-mode .video-container {
-            height: calc(100vh - 120px) !important;
-            border-radius: 0;
-        }
-
-        .theater-mode .video-section {
-            padding: 15px;
-            border-radius: 0;
-        }
-
         /* Video Player */
         .video-section {
             background: rgba(15, 23, 42, 0.8);
@@ -133,35 +103,6 @@
             color: #60efff;
         }
 
-        .video-controls {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .control-btn {
-            padding: 8px 16px;
-            background: rgba(51, 65, 85, 0.8);
-            border: 1px solid #475569;
-            border-radius: 8px;
-            color: #ffffff;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-        }
-
-        .control-btn:hover, .control-btn:focus {
-            background: #00ff87;
-            color: #000000;
-            transform: scale(1.05);
-            outline: none;
-        }
-
-        .control-btn.active {
-            background: #00ff87;
-            color: #000000;
-        }
-
         .video-container {
             width: 100%;
             height: 500px;
@@ -173,12 +114,6 @@
             transition: all 0.3s ease;
         }
 
-        .video-embed {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
         .video-placeholder {
             display: flex;
             flex-direction: column;
@@ -186,6 +121,8 @@
             align-items: center;
             height: 100%;
             background: linear-gradient(45deg, #1e293b, #334155);
+            text-align: center;
+            padding: 40px;
         }
 
         .placeholder-icon {
@@ -194,42 +131,50 @@
             opacity: 0.7;
         }
 
-        .error-message {
-            background: rgba(239, 68, 68, 0.1);
-            border: 2px solid #ef4444;
+        .placeholder-title {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #00ff87, #60efff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .placeholder-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #94a3b8;
+        }
+
+        .creator-info {
+            background: rgba(0, 255, 135, 0.1);
+            border: 1px solid #00ff87;
             border-radius: 12px;
             padding: 20px;
-            margin: 20px 0;
+            margin-top: 20px;
             text-align: center;
         }
 
-        .error-title {
-            color: #ef4444;
-            font-size: 1.2rem;
+        .creator-title {
+            color: #00ff87;
+            font-size: 1rem;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
 
-        .error-description {
-            color: #fca5a5;
-            margin-bottom: 15px;
-        }
-
-        .error-solutions {
+        .creator-text {
             color: #60efff;
             font-size: 0.9rem;
-            text-align: left;
         }
 
         /* Matches Sidebar */
         .matches-sidebar {
-            background: rgba(15, 23, 42, 0.8);
-            border-radius: 20px;
+            
+           
             padding: 25px;
-            border: 2px solid #334155;
-            backdrop-filter: blur(10px);
+            
+            
             max-height: 80vh;
-            overflow-y: auto;
+            overflow-y: 100%;
             transition: all 0.3s ease;
         }
 
@@ -257,12 +202,6 @@
             border-color: #00ff87;
             transform: translateX(10px);
             outline: none;
-        }
-
-        .match-item.selected {
-            background: linear-gradient(135deg, rgba(0, 255, 135, 0.2), rgba(96, 239, 255, 0.2));
-            border-color: #00ff87;
-            box-shadow: 0 0 20px rgba(0, 255, 135, 0.3);
         }
 
         .match-teams {
@@ -295,6 +234,25 @@
             font-size: 0.7rem;
             font-weight: bold;
             animation: pulse 2s infinite;
+        }
+
+        .watch-btn {
+            background: linear-gradient(135deg, #00ff87, #60efff);
+            color: #000000;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .watch-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 255, 135, 0.4);
         }
 
         @keyframes pulse {
@@ -337,7 +295,7 @@
             }
             
             .matches-sidebar {
-                max-height: 250px;
+                max-height: 300px;
                 order: -1;
                 padding: 15px;
             }
@@ -357,44 +315,23 @@
                 font-size: 1.3rem;
             }
             
-            .video-controls {
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .control-btn {
-                padding: 8px 12px;
-                font-size: 0.8rem;
-            }
-            
             .video-container {
                 height: 250px;
                 border-radius: 10px;
             }
-        }
 
-        /* Loading spinner */
-        .loading {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            flex-direction: column;
-        }
+            .placeholder-title {
+                font-size: 1.5rem;
+            }
 
-        .spinner {
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top: 4px solid #00ff87;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
+            .placeholder-subtitle {
+                font-size: 1rem;
+            }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            .creator-info {
+                padding: 15px;
+                margin-top: 15px;
+            }
         }
 
         /* Notification styles */
@@ -448,31 +385,11 @@
             
             <div class="nav-controls">
                 <button class="nav-btn" onclick="refreshPage()">🔄 Recargar</button>
-                <button class="nav-btn" onclick="toggleTheaterMode()" id="theaterBtn">📺 Pantalla Grande</button>
-                <button class="nav-btn" onclick="toggleFullscreen()">⛶ Pantalla Completa</button>
                 <button class="nav-btn" onclick="showHelp()">❓ Ayuda</button>
             </div>
         </header>
 
-        <main class="main-content">
-            <section class="video-section">
-                <div class="video-header">
-                    <h2 class="match-title" id="currentMatch">Selecciona un partido para comenzar</h2>
-                    <div class="video-controls">
-                        <button class="control-btn" onclick="reloadStream()">🔄 Recargar</button>
-                        <button class="control-btn" onclick="changeQuality()">📡 Servidor</button>
-                        <button class="control-btn" onclick="openInNewTab()">🔗 Abrir Directo</button>
-                        <button class="control-btn" onclick="copyStreamUrl()">📋 Copiar URL</button>
-                    </div>
-                </div>
-                <div class="video-container" id="videoContainer">
-                    <div class="video-placeholder">
-                        <div class="placeholder-icon">⚽</div>
-                        <h3>JFUT - Portal de Fútbol</h3>
-                        <p>Selecciona un partido de la lista para comenzar</p>
-                    </div>
-                </div>
-            </section>
+
 
             <aside class="matches-sidebar">
                 <h3 class="sidebar-title">⚽ Partidos Disponibles</h3>
@@ -484,109 +401,36 @@
     </div>
 
     <script>
-        // Datos de partidos actualizados con múltiples opciones
+        // Datos de partidos actualizados
         const matchesData = [
             {
                 id: 1,
-                teams: "U de Chile Vs. Independiente",
+                teams: "U de Chile vs. Independiente",
                 time: "Hoy a las 20:30",
                 league: "Copa Sudamericana",
-                isLive: false,
-                streams: [
-                    { 
-                        name: "Servidor 1", 
-                        url: "",
-                        mobile: true
-                    },
-                    { 
-                        name: "Servidor 2", 
-                        url: "",
-                        mobile: true
-                    },
-                    { 
-                        name: "YouTube Backup", 
-                        url: "",
-                        mobile: true
-                    }
-                ]
+                isLive: true,
+                streamPage: "reproductorM3u8.html"
             },
             {
                 id: 2,
-                teams: "Independiente Vs. U de Chile",
-                time: "Proximamente el Miercoles a las 20:30",
+                teams: "Independiente vs. U de Chile",
+                time: "Miércoles a las 20:30",
                 league: "Copa Sudamericana",
                 isLive: false,
-                streams: [
-                    { 
-                        name: "Servidor 1", 
-                        url: "",
-                        mobile: true
-                    },
-                    { 
-                        name: "Servidor 2", 
-                        url: "",
-                        mobile: true
-                    },
-                    { 
-                        name: "YouTube Backup", 
-                        url: "",
-                        mobile: true
-                    }
-                ]
+                streamPage: "partido2.html"
             }
         ];
 
-        let currentMatch = null;
-        let currentStreamIndex = 0;
-        let isTheaterMode = false;
         let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-        // Detectar dispositivo y mostrar info
-        function detectDevice() {
-            const info = {
-                userAgent: navigator.userAgent,
-                isMobile: isMobile,
-                isGitHubPages: window.location.hostname.includes('github.io'),
-                protocol: window.location.protocol,
-                hostname: window.location.hostname
-            };
-            
-            console.log('Device Info:', info);
-            return info;
-        }
 
         // Inicializar la aplicación
         function initApp() {
-            const deviceInfo = detectDevice();
             loadMatches();
-            
-            if (deviceInfo.isMobile && deviceInfo.isGitHubPages) {
-                showMobileWarning();
-            }
-            
             console.log('JFUT inicializado correctamente');
-        }
-
-        // Mostrar advertencia para móviles
-        function showMobileWarning() {
-            const warning = `
-📱 DISPOSITIVO MÓVIL DETECTADO
-
-Algunas transmisiones pueden no funcionar debido a:
-• Políticas de seguridad de GitHub Pages
-• Restricciones de contenido externo
-• Bloqueo de frames en móviles
-
-✅ SOLUCIONES RECOMENDADAS:
-• Usa el botón "🔗 Abrir Directo"
-• Prueba diferentes servidores
-• Considera usar un navegador de escritorio
-
-¿Necesitas ayuda? Presiona "❓ Ayuda"
-            `;
             
+            // Mostrar mensaje de bienvenida después de 2 segundos
             setTimeout(() => {
-                showNotification(warning);
+                showNotification('🏠 Bienvenido a JFUT - Portal familiar de fútbol creado por Javier Briceño');
             }, 2000);
         }
 
@@ -598,266 +442,57 @@ Algunas transmisiones pueden no funcionar debido a:
             matchesData.forEach((match, index) => {
                 const matchElement = document.createElement('div');
                 matchElement.className = 'match-item';
-                matchElement.onclick = () => selectMatch(match, index);
+                matchElement.tabIndex = 0;
                 
                 matchElement.innerHTML = `
-                    ${match.isLive ? '<div class="live-indicator">EN VIVO</div>' : ''}
+                    ${match.isLive ? '<div class="live-indicator">🔴 EN VIVO</div>' : ''}
                     <div class="match-teams">${match.teams}</div>
                     <div class="match-time">${match.time}</div>
                     <div class="match-league">${match.league}</div>
-                    <div style="margin-top: 10px; font-size: 0.8rem; color: #94a3b8;">
-                        📡 ${match.streams.length} servidor${match.streams.length > 1 ? 'es' : ''} disponible${match.streams.length > 1 ? 's' : ''}
-                    </div>
+                    <button class="watch-btn" onclick="openMatch('${match.streamPage}', '${match.teams}')">
+                        📺 Ver Partido
+                    </button>
                 `;
+
+                // Agregar evento de teclado para accesibilidad
+                matchElement.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        openMatch(match.streamPage, match.teams);
+                    }
+                });
 
                 matchesList.appendChild(matchElement);
             });
         }
 
-        // Seleccionar partido
-        function selectMatch(match, index) {
-            // Remover selección anterior
-            document.querySelectorAll('.match-item').forEach(item => {
-                item.classList.remove('selected');
-            });
-
-            // Agregar selección actual
-            const matchItems = document.querySelectorAll('.match-item');
-            if (matchItems[index]) {
-                matchItems[index].classList.add('selected');
-            }
-
-            currentMatch = match;
-            currentStreamIndex = 0;
-            
-            document.getElementById('currentMatch').textContent = match.teams;
-            loadStream(match.streams[0]);
-        }
-
-        // Cargar stream con manejo de errores mejorado
-        function loadStream(streamInfo) {
-            const videoContainer = document.getElementById('videoContainer');
-            
-            // Mostrar loading
-            videoContainer.innerHTML = `
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <p>Cargando ${streamInfo.name}...</p>
-                    <p style="font-size: 0.8rem; margin-top: 10px; opacity: 0.7;">
-                        Si no carga, prueba otro servidor
-                    </p>
-                </div>
-            `;
-
-            // Intentar cargar el stream
-            setTimeout(() => {
-                try {
-                    if (isMobile && !streamInfo.mobile) {
-                        showMobileError(streamInfo);
-                        return;
-                    }
-
-                    const iframe = document.createElement('iframe');
-                    iframe.className = 'video-embed';
-                    iframe.src = buildStreamUrl(streamInfo.url);
-                    iframe.frameBorder = '0';
-                    iframe.allowFullscreen = true;
-                    iframe.allow = 'autoplay; encrypted-media; picture-in-picture';
-                    
-                    // Manejar errores de carga
-                    iframe.onerror = () => {
-                        showStreamError(streamInfo);
-                    };
-                    
-                    iframe.onload = () => {
-                        console.log(`Stream cargado: ${streamInfo.name}`);
-                        showNotification(`✅ ${streamInfo.name} cargado correctamente`);
-                    };
-
-                    videoContainer.innerHTML = '';
-                    videoContainer.appendChild(iframe);
-                    
-                } catch (error) {
-                    console.error('Error loading stream:', error);
-                    showStreamError(streamInfo);
-                }
-            }, 1000);
-        }
-
-        // Construir URL del stream con parámetros optimizados
-        function buildStreamUrl(baseUrl) {
-            const params = new URLSearchParams({
-                autoplay: '1',
-                muted: '0',
-                controls: '1',
-                playsinline: '1',
-                rel: '0'
-            });
-            
-            const separator = baseUrl.includes('?') ? '&' : '?';
-            return `${baseUrl}${separator}${params.toString()}`;
-        }
-
-        // Mostrar error específico para móviles
-        function showMobileError(streamInfo) {
-            const videoContainer = document.getElementById('videoContainer');
-            videoContainer.innerHTML = `
-                <div class="error-message">
-                    <div class="error-title">📱 Limitación de Dispositivo Móvil</div>
-                    <div class="error-description">
-                        Este servidor (${streamInfo.name}) tiene restricciones para dispositivos móviles.
-                    </div>
-                    <div class="error-solutions">
-                        <strong>💡 Soluciones:</strong><br>
-                        • Prueba otro servidor con el botón "📡 Servidor"<br>
-                        • Usa "🔗 Abrir Directo" para ver en pestaña nueva<br>
-                        • Cambia a un navegador de escritorio si es posible
-                    </div>
-                    <div style="margin-top: 15px;">
-                        <button class="control-btn" onclick="changeQuality()">📡 Probar Otro Servidor</button>
-                        <button class="control-btn" onclick="openInNewTab()" style="margin-left: 10px;">🔗 Abrir Directo</button>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Mostrar error de stream
-        function showStreamError(streamInfo) {
-            const videoContainer = document.getElementById('videoContainer');
-            videoContainer.innerHTML = `
-                <div class="error-message">
-                    <div class="error-title">⚠️ Error al Cargar Stream</div>
-                    <div class="error-description">
-                        No se pudo cargar ${streamInfo.name}. Esto puede deberse a:
-                    </div>
-                    <div class="error-solutions">
-                        • Restricciones de CORS del servidor<br>
-                        • Políticas de seguridad de GitHub Pages<br>
-                        • El stream no está disponible actualmente<br>
-                        • Problemas de conectividad
-                    </div>
-                    <div style="margin-top: 15px;">
-                        <button class="control-btn" onclick="reloadStream()">🔄 Reintentar</button>
-                        <button class="control-btn" onclick="changeQuality()" style="margin-left: 10px;">📡 Cambiar Servidor</button>
-                        <button class="control-btn" onclick="openInNewTab()" style="margin-left: 10px;">🔗 Abrir Directo</button>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Recargar stream actual
-        function reloadStream() {
-            if (currentMatch && currentMatch.streams[currentStreamIndex]) {
-                loadStream(currentMatch.streams[currentStreamIndex]);
-                showNotification('🔄 Recargando stream...');
-            } else {
-                showNotification('❌ No hay stream seleccionado');
-            }
-        }
-
-        // Cambiar calidad/servidor
-        function changeQuality() {
-            if (currentMatch && currentMatch.streams.length > 1) {
-                currentStreamIndex = (currentStreamIndex + 1) % currentMatch.streams.length;
-                const newStream = currentMatch.streams[currentStreamIndex];
-                loadStream(newStream);
-                showNotification(`📡 Cambiando a: ${newStream.name}`);
-            } else if (currentMatch) {
-                showNotification('📡 Solo hay un servidor disponible');
-            } else {
-                showNotification('❌ Selecciona un partido primero');
-            }
-        }
-
-        // Abrir stream en nueva pestaña
-        function openInNewTab() {
-            if (currentMatch && currentMatch.streams[currentStreamIndex]) {
-                const streamUrl = currentMatch.streams[currentStreamIndex].url;
-                window.open(streamUrl, '_blank');
-                showNotification('🔗 Abriendo stream en nueva pestaña');
-            } else {
-                showNotification('❌ No hay stream seleccionado');
-            }
-        }
-
-        // Copiar URL del stream
-        function copyStreamUrl() {
-            if (currentMatch && currentMatch.streams[currentStreamIndex]) {
-                const streamUrl = currentMatch.streams[currentStreamIndex].url;
-                
-                if (navigator.clipboard) {
-                    navigator.clipboard.writeText(streamUrl).then(() => {
-                        showNotification('📋 URL copiada al portapapeles');
-                    }).catch(() => {
-                        fallbackCopyText(streamUrl);
-                    });
-                } else {
-                    fallbackCopyText(streamUrl);
-                }
-            } else {
-                showNotification('❌ No hay stream seleccionado');
-            }
-        }
-
-        // Método alternativo para copiar texto
-        function fallbackCopyText(text) {
-            const textArea = document.createElement('textarea');
-            textArea.value = text;
-            document.body.appendChild(textArea);
-            textArea.select();
-            
+        // Abrir partido en nueva pestaña
+        function openMatch(streamPage, teams) {
             try {
-                document.execCommand('copy');
-                showNotification('📋 URL copiada al portapapeles');
-            } catch (err) {
-                console.error('Error copying text: ', err);
-                showNotification('❌ No se pudo copiar la URL');
-            }
-            
-            document.body.removeChild(textArea);
-        }
-
-        // Toggle Theater Mode
-        function toggleTheaterMode() {
-            const body = document.body;
-            const theaterBtn = document.getElementById('theaterBtn');
-            
-            isTheaterMode = !isTheaterMode;
-            
-            if (isTheaterMode) {
-                body.classList.add('theater-mode');
-                theaterBtn.textContent = '📱 Vista Normal';
-                theaterBtn.classList.add('active');
-                showNotification('🎬 Modo Pantalla Grande Activado');
-            } else {
-                body.classList.remove('theater-mode');
-                theaterBtn.textContent = '📺 Pantalla Grande';
-                theaterBtn.classList.remove('active');
-                showNotification('📱 Vista Normal Activada');
-            }
-        }
-
-        // Toggle pantalla completa
-        function toggleFullscreen() {
-            if (!document.fullscreenElement) {
-                const videoContainer = document.getElementById('videoContainer');
-                if (videoContainer.requestFullscreen) {
-                    videoContainer.requestFullscreen();
-                } else if (videoContainer.webkitRequestFullscreen) {
-                    videoContainer.webkitRequestFullscreen();
-                } else if (videoContainer.msRequestFullscreen) {
-                    videoContainer.msRequestFullscreen();
+                // Crear URL del archivo del partido
+                const matchUrl = `./${streamPage}`;
+                
+                // Abrir en nueva pestaña
+                const newWindow = window.open(matchUrl, '_blank');
+                
+                // Verificar si la ventana se abrió correctamente
+                if (newWindow) {
+                    showNotification(`📺 Abriendo: ${teams}\nSe abrirá en una nueva pestaña`);
+                } else {
+                    // Si no se puede abrir (bloqueador de popups)
+                    showNotification(`❌ Popup bloqueado\nPermite popups para este sitio y vuelve a intentar`);
+                    
+                    // Método alternativo: redirigir en la misma pestaña después de confirmación
+                    setTimeout(() => {
+                        const confirmRedirect = confirm(`¿Quieres ir al partido ${teams} en esta misma pestaña?`);
+                        if (confirmRedirect) {
+                            window.location.href = matchUrl;
+                        }
+                    }, 3000);
                 }
-                showNotification('⛶ Pantalla completa - ESC para salir');
-            } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                } else if (document.webkitExitFullscreen) {
-                    document.webkitExitFullscreen();
-                } else if (document.msExitFullscreen) {
-                    document.msExitFullscreen();
-                }
-                showNotification('⛶ Saliendo de pantalla completa');
+            } catch (error) {
+                console.error('Error opening match:', error);
+                showNotification(`❌ Error al abrir el partido\n${error.message}`);
             }
         }
 
@@ -866,27 +501,31 @@ Algunas transmisiones pueden no funcionar debido a:
             const helpText = `
 🆘 AYUDA - JFUT
 
-📱 PROBLEMAS COMUNES EN MÓVILES:
-• "Page does not exist" → Usa "🔗 Abrir Directo"
-• Stream no carga → Prueba otro servidor
-• Pantalla negra → Recarga el stream
+🏠 ACERCA DE:
+Página creada por Javier Briceño para uso familiar.
+Portal dedicado a ver partidos de fútbol.
 
-🎮 CONTROLES DISPONIBLES:
-🔄 Recargar - Refresca el stream actual
-📡 Servidor - Cambia entre servidores
-🔗 Abrir Directo - Abre en nueva pestaña
-📋 Copiar URL - Copia enlace directo
+📺 CÓMO USAR:
+• Selecciona un partido de la lista
+• Presiona "📺 Ver Partido"
+• Se abrirá en una nueva pestaña
 
-📺 MODOS DE VISUALIZACIÓN:
-📺 Pantalla Grande - Modo teatro
-⛶ Pantalla Completa - Fullscreen
+⚠️ PROBLEMAS COMUNES:
+• Si no abre: Permite popups en tu navegador
+• En móviles: Algunos navegadores pueden bloquear ventanas
+• Error de archivo: El partido aún no está disponible
+
+🔧 SOLUCIONES:
+• Habilita popups para este sitio
+• Usa un navegador moderno (Chrome, Firefox, Safari)
+• En móviles, prueba mantener presionado el botón
 
 💡 CONSEJOS:
-• En móviles, mejor usar "Abrir Directo"
-• Si hay problemas, prueba diferentes servidores
-• GitHub Pages tiene limitaciones con ciertos streams
+• Los partidos EN VIVO tienen indicador rojo
+• Cada partido tiene su propia página optimizada
+• Funciona mejor en computadora que en móvil
 
-¿Aún tienes problemas? El código está optimizado para múltiples dispositivos.
+¿Necesitas más ayuda? Contacta a Javier Briceño.
             `;
             showNotification(helpText);
         }
@@ -899,11 +538,12 @@ Algunas transmisiones pueden no funcionar debido a:
             }, 1500);
         }
 
-        // Mostrar notificación mejorada
+        // Mostrar notificación
         function showNotification(message) {
             // Remover notificación anterior si existe
             const existingNotification = document.querySelector('.notification');
-            if (existingNotification) {existingNotification.style.animation = 'slideOut 0.3s ease';
+            if (existingNotification) {
+                existingNotification.style.animation = 'slideOut 0.3s ease';
                 setTimeout(() => {
                     existingNotification.remove();
                 }, 300);
@@ -916,7 +556,7 @@ Algunas transmisiones pueden no funcionar debido a:
             
             document.body.appendChild(notification);
 
-            // Auto-remover después de 5 segundos
+            // Auto-remover después de 6 segundos (más tiempo para leer)
             setTimeout(() => {
                 if (notification.parentNode) {
                     notification.style.animation = 'slideOut 0.3s ease';
@@ -926,38 +566,30 @@ Algunas transmisiones pueden no funcionar debido a:
                         }
                     }, 300);
                 }
-            }, 5000);
+            }, 6000);
         }
 
         // Manejar teclas de acceso rápido
         document.addEventListener('keydown', function(e) {
             switch(e.key) {
-                case 'F11':
+                case 'F5':
                     e.preventDefault();
-                    toggleFullscreen();
+                    refreshPage();
                     break;
-                case 'r':
-                case 'R':
-                    if (e.ctrlKey || e.metaKey) {
-                        e.preventDefault();
-                        reloadStream();
-                    }
+                case 'F1':
+                    e.preventDefault();
+                    showHelp();
                     break;
-                case 'Escape':
-                    if (isTheaterMode) {
-                        toggleTheaterMode();
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                    const matchIndex = parseInt(e.key) - 1;
+                    if (matchesData[matchIndex]) {
+                        openMatch(matchesData[matchIndex].streamPage, matchesData[matchIndex].teams);
                     }
                     break;
             }
-        });
-
-        // Manejar cambios de orientación en móviles
-        window.addEventListener('orientationchange', function() {
-            setTimeout(() => {
-                if (currentMatch && currentMatch.streams[currentStreamIndex]) {
-                    reloadStream();
-                }
-            }, 500);
         });
 
         // Prevenir zoom en móviles al hacer doble tap
@@ -970,8 +602,21 @@ Algunas transmisiones pueden no funcionar debido a:
             lastTouchEnd = now;
         }, false);
 
+        // Detectar si los archivos de partidos existen
+        function checkMatchFiles() {
+            matchesData.forEach(match => {
+                fetch(match.streamPage, { method: 'HEAD' })
+                    .catch(() => {
+                        console.warn(`Archivo ${match.streamPage} no encontrado`);
+                    });
+            });
+        }
+
         // Inicializar cuando la página se carga
-        document.addEventListener('DOMContentLoaded', initApp);
+        document.addEventListener('DOMContentLoaded', function() {
+            initApp();
+            checkMatchFiles();
+        });
 
         // Backup init si DOMContentLoaded ya pasó
         if (document.readyState === 'loading') {
@@ -980,7 +625,7 @@ Algunas transmisiones pueden no funcionar debido a:
             initApp();
         }
 
-        console.log('JFUT - Sistema cargado correctamente');
+        console.log('JFUT - Sistema cargado correctamente - Creado por Javier Briceño');
     </script>
 </body>
 </html>
