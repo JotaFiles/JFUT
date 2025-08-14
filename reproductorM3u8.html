@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Transmisión Familiar - Reproductor Moderno</title>
+  <title>Universidad de Chile - Reproductor Oficial</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   <style>
     * {
@@ -14,21 +14,55 @@
 
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #003d82 0%, #1e5aa8 50%, #ffffff 100%);
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(0, 61, 130, 0.2) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .u-logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 60px;
+      height: 60px;
+      background: #003d82;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 20px;
+      box-shadow: 0 4px 15px rgba(0, 61, 130, 0.3);
+      z-index: 1000;
     }
 
     .player-container {
-      background: rgba(0, 0, 0, 0.9);
+      background: rgba(0, 0, 0, 0.95);
       border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 25px 60px rgba(0, 61, 130, 0.4);
       backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 2px solid #003d82;
       max-width: 1200px;
       width: 100%;
       position: relative;
@@ -36,7 +70,7 @@
     }
 
     .player-header {
-      background: linear-gradient(90deg, #ff6b6b, #ee5a24);
+      background: linear-gradient(135deg, #003d82 0%, #1e5aa8 100%);
       padding: 20px;
       text-align: center;
       position: relative;
@@ -51,7 +85,7 @@
       width: 100%;
       height: 100%;
       background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      animation: shine 3s infinite;
+      animation: shine 4s infinite;
     }
 
     @keyframes shine {
@@ -61,15 +95,90 @@
 
     .player-title {
       color: white;
-      font-size: 24px;
+      font-size: 28px;
       font-weight: bold;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
       margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
     }
 
     .player-subtitle {
-      color: rgba(255, 255, 255, 0.8);
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .match-info {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 10px;
+      border-radius: 10px;
+      color: white;
+      font-weight: bold;
+    }
+
+    .channels-selector {
+      background: linear-gradient(135deg, #1e5aa8, #003d82);
+      padding: 15px;
+      border-bottom: 2px solid #003d82;
+    }
+
+    .channels-title {
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .channels-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .channel-btn {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 12px 15px;
+      border-radius: 12px;
+      cursor: pointer;
       font-size: 14px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-align: left;
+      backdrop-filter: blur(5px);
+    }
+
+    .channel-btn:hover {
+      transform: translateY(-2px);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+      border-color: white;
+      box-shadow: 0 6px 20px rgba(0, 61, 130, 0.3);
+    }
+
+    .channel-btn.active {
+      background: linear-gradient(135deg, #ffffff, #f0f0f0);
+      color: #003d82;
+      border-color: white;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    }
+
+    .channel-quality {
+      font-size: 11px;
+      opacity: 0.8;
+      margin-left: auto;
     }
 
     .video-wrapper {
@@ -90,7 +199,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.8);
+      background: linear-gradient(135deg, rgba(0, 61, 130, 0.9), rgba(30, 90, 168, 0.8));
       display: flex;
       align-items: center;
       justify-content: center;
@@ -100,10 +209,10 @@
     }
 
     .spinner {
-      width: 50px;
-      height: 50px;
+      width: 60px;
+      height: 60px;
       border: 4px solid rgba(255, 255, 255, 0.3);
-      border-top: 4px solid #ff6b6b;
+      border-top: 4px solid white;
       border-radius: 50%;
       animation: spin 1s linear infinite;
       margin-bottom: 20px;
@@ -114,9 +223,21 @@
       100% { transform: rotate(360deg); }
     }
 
+    .loading-text {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .loading-channel {
+      font-size: 14px;
+      opacity: 0.8;
+    }
+
     .controls-panel {
-      background: linear-gradient(90deg, #2c3e50, #34495e);
+      background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
       padding: 20px;
+      border-top: 2px solid #003d82;
     }
 
     .control-buttons {
@@ -128,7 +249,7 @@
     }
 
     .control-btn {
-      background: linear-gradient(135deg, #667eea, #764ba2);
+      background: linear-gradient(135deg, #003d82, #1e5aa8);
       border: none;
       color: white;
       padding: 12px 20px;
@@ -140,12 +261,13 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 4px 15px rgba(0, 61, 130, 0.3);
     }
 
     .control-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+      box-shadow: 0 6px 20px rgba(0, 61, 130, 0.5);
+      background: linear-gradient(135deg, #1e5aa8, #003d82);
     }
 
     .control-btn:active {
@@ -159,7 +281,7 @@
     }
 
     .fullscreen-btn {
-      background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+      background: linear-gradient(135deg, #2c5aa0, #1e4080);
     }
 
     .cast-btn {
@@ -188,8 +310,8 @@
     }
 
     .quality-selector select {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: rgba(0, 61, 130, 0.2);
+      border: 2px solid #003d82;
       color: white;
       padding: 8px 12px;
       border-radius: 10px;
@@ -210,14 +332,16 @@
       position: absolute;
       top: 10px;
       right: 10px;
-      background: rgba(0, 0, 0, 0.7);
+      background: linear-gradient(135deg, #003d82, rgba(0, 61, 130, 0.9));
       color: white;
-      padding: 5px 10px;
-      border-radius: 15px;
+      padding: 8px 12px;
+      border-radius: 20px;
       font-size: 12px;
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 8px;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .status-live {
@@ -233,13 +357,38 @@
       50% { opacity: 0.3; }
     }
 
+    .current-channel-info {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      background: linear-gradient(135deg, rgba(0, 61, 130, 0.9), rgba(0, 0, 0, 0.7));
+      color: white;
+      padding: 8px 12px;
+      border-radius: 15px;
+      font-size: 12px;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
     @media (max-width: 768px) {
       body {
         padding: 10px;
       }
       
+      .u-logo {
+        top: 10px;
+        left: 10px;
+        width: 40px;
+        height: 40px;
+        font-size: 14px;
+      }
+      
       .player-title {
-        font-size: 18px;
+        font-size: 20px;
+      }
+      
+      .channels-grid {
+        grid-template-columns: 1fr;
       }
       
       .control-buttons {
@@ -252,7 +401,7 @@
       }
     }
 
-    /* Fullscreen styles - CORREGIDO */
+    /* Fullscreen styles */
     .player-container:-webkit-full-screen,
     .player-container:-moz-full-screen,
     .player-container:fullscreen {
@@ -270,7 +419,7 @@
     .player-container:-moz-full-screen .video-wrapper,
     .player-container:fullscreen .video-wrapper {
       aspect-ratio: auto !important;
-      height: calc(100vh - 120px) !important;
+      height: calc(100vh - 160px) !important;
     }
 
     .cast-available {
@@ -287,14 +436,15 @@
       position: fixed;
       top: 20px;
       right: 20px;
-      background: linear-gradient(135deg, #667eea, #764ba2);
+      background: linear-gradient(135deg, #003d82, #1e5aa8);
       color: white;
       padding: 15px 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0, 61, 130, 0.4);
       z-index: 10000;
       animation: slideInRight 0.3s ease;
       max-width: 300px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     @keyframes slideInRight {
@@ -306,16 +456,38 @@
       from { transform: translateX(0); opacity: 1; }
       to { transform: translateX(100%); opacity: 0; }
     }
+
+    .u-shield {
+      filter: drop-shadow(0 2px 4px rgba(0, 61, 130, 0.5));
+    }
   </style>
 </head>
 <body>
+
+    
+
+  </div>
+
   <div class="player-container" id="playerContainer">
     <div class="player-header">
       <div class="player-title">
-        <i class="fas fa-play-circle"></i> Transmisión Familiar Los Carepelota
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2d/Emblema_del_Club_Universidad_de_Chile.png" width="50" height="auto">
+       BRICEÑO STREAMING
       </div>
-      <div class="player-subtitle">Reproductor de video en vivo! </div>
-      <p>U de Chile Vs. Independiente</p>
+      <div class="player-subtitle">Reproductor Los Care Pelota</div>
+      <div class="match-info" id="matchInfo">
+        U de Chile vs. Independiente - Transmisión en Vivo
+      </div>
+    </div>
+
+    <div class="channels-selector">
+      <div class="channels-title">
+        <i class="fas fa-satellite-dish"></i>
+        Seleccionar Canal
+      </div>
+      <div class="channels-grid" id="channelsGrid">
+        <!-- Los canales se cargarán dinámicamente -->
+      </div>
     </div>
 
     <div class="video-wrapper">
@@ -323,12 +495,17 @@
       
       <div class="loading-overlay" id="loadingOverlay">
         <div class="spinner"></div>
-        <div>Cargando transmisión...</div>
+        <div class="loading-text">Cargando transmisión...</div>
+        <div class="loading-channel" id="loadingChannelName">Canal Principal</div>
       </div>
 
       <div class="status-indicator">
         <div class="status-live"></div>
-        EN VIVO DESDE JFUT
+        <span id="statusText">EN VIVO DESDE BRICEÑO FUT</span>
+      </div>
+
+      <div class="current-channel-info" id="currentChannelInfo">
+        Canal Principal - HD
       </div>
     </div>
 
@@ -338,7 +515,7 @@
           <i class="fas fa-play"></i> Reproducir
         </button>
         <button class="control-btn" id="muteBtn">
-          <i class="fas fa-volume-up"></i> Silenciar
+          <i class="fas fa-volume-up"></i> Audio
         </button>
         <button class="control-btn fullscreen-btn" id="fullscreenBtn">
           <i class="fas fa-expand"></i> Pantalla Completa
@@ -364,30 +541,116 @@
 
     <div class="error-message" id="errorMessage">
       <i class="fas fa-exclamation-triangle"></i>
-      Error al cargar la transmisión. Por favor, intenta recargar.
+      Error al cargar la transmisión. Por favor, intenta con otro canal.
     </div>
   </div>
 
-  <!-- Google Cast SDK -->
+  <!-- Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.4.12/hls.min.js"></script>
   <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
   
   <script>
-    class ModernM3U8Player {
+    class UniversidadChilePlayer {
       constructor() {
         this.video = document.getElementById('video');
         this.hls = null;
         this.isFullscreen = false;
         this.isCasting = false;
         this.castSession = null;
-        this.streamUrl = "https://wp9xqedt.fubohd.com/disney7/mono.m3u8?token=c69e2ee91f2d8aab90e855f99fc878166c781b0a-f1-1755146781-1755128781";
+        this.currentChannel = null;
         
+        // Configuración de canales - REEMPLAZA ESTOS ENLACES CON TUS URLs REALES
+        this.channels = [
+          {
+            id: 'principal',
+            name: 'DirecTV',
+            url: 'https://a2vlca.fubohd.com/disney7/mono.m3u8?token=f8a992cd4447e98a7c57c095cce1280d31982fba-23-1755143671-1755125671',
+            quality: 'HD',
+            icon: 'fas fa-star'
+          },
+          {
+            id: 'espn',
+            name: 'ESPN ARG',
+            url: 'https://rm8zcvk3.fubohd.com/espn2/mono.m3u8?token=afaa7d5ffe11b6c4aff81724f879bce0328036b2-72-1755144656-1755126656', // Reemplaza con tu URL
+            quality: 'HD',
+            icon: 'fas fa-tv'
+          },
+          {
+            id: 'alternativo',
+            name: 'Canal JFUT Beta',
+            url: 'https://a2vlca.fubohd.com/disney7/mono.m3u8?token=f8a992cd4447e98a7c57c095cce1280d31982fba-23-1755143671-1755125671', // Reemplaza con tu URL
+            quality: '720p',
+            icon: 'fas fa-satellite-dish'
+          }
+        ];
+        
+        this.initializeChannels();
         this.initializePlayer();
         this.setupEventListeners();
         this.initializeChromecast();
       }
 
+      initializeChannels() {
+        const channelsGrid = document.getElementById('channelsGrid');
+        
+        this.channels.forEach((channel, index) => {
+          const channelBtn = document.createElement('button');
+          channelBtn.className = `channel-btn ${index === 0 ? 'active' : ''}`;
+          channelBtn.innerHTML = `
+            <i class="${channel.icon}"></i>
+            <div>
+              <div>${channel.name}</div>
+            </div>
+            <div class="channel-quality">${channel.quality}</div>
+          `;
+          channelBtn.addEventListener('click', () => this.switchChannel(channel));
+          channelsGrid.appendChild(channelBtn);
+        });
+
+        // Seleccionar el primer canal por defecto
+        this.currentChannel = this.channels[0];
+        this.updateCurrentChannelInfo();
+      }
+
+      switchChannel(channel) {
+        if (this.currentChannel.id === channel.id) return;
+
+        // Actualizar botones activos
+        document.querySelectorAll('.channel-btn').forEach(btn => {
+          btn.classList.remove('active');
+        });
+        event.target.closest('.channel-btn').classList.add('active');
+
+        // Cambiar canal
+        this.currentChannel = channel;
+        this.updateCurrentChannelInfo();
+        this.showLoading();
+        document.getElementById('loadingChannelName').textContent = channel.name;
+        
+        // Destruir HLS actual y cargar nuevo canal
+        if (this.hls) {
+          this.hls.destroy();
+        }
+        
+        setTimeout(() => {
+          this.initializePlayer();
+          this.showNotification(`Cambiado a: ${channel.name}`);
+        }, 500);
+
+        // Si está haciendo cast, cambiar también en Chromecast
+        if (this.isCasting) {
+          this.updateCastMedia();
+        }
+      }
+
+      updateCurrentChannelInfo() {
+        const info = document.getElementById('currentChannelInfo');
+        info.textContent = `${this.currentChannel.name} - ${this.currentChannel.quality}`;
+      }
+
       initializePlayer() {
+        if (!this.currentChannel) return;
+
         if (Hls.isSupported()) {
           this.hls = new Hls({
             enableWorker: true,
@@ -395,7 +658,7 @@
             backBufferLength: 90
           });
           
-          this.hls.loadSource(this.streamUrl);
+          this.hls.loadSource(this.currentChannel.url);
           this.hls.attachMedia(this.video);
           
           this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
@@ -407,11 +670,12 @@
             console.error('HLS Error:', data);
             if (data.fatal) {
               this.showError();
+              this.showNotification('Error en el canal. Prueba otro canal.');
             }
           });
 
         } else if (this.video.canPlayType('application/vnd.apple.mpegurl')) {
-          this.video.src = this.streamUrl;
+          this.video.src = this.currentChannel.url;
           this.video.addEventListener('loadedmetadata', () => {
             this.hideLoading();
             this.video.play().catch(e => console.log('Autoplay prevented'));
@@ -441,7 +705,7 @@
           this.video.muted = !this.video.muted;
         });
 
-        // Fullscreen button - CORREGIDO
+        // Fullscreen button
         document.getElementById('fullscreenBtn').addEventListener('click', () => {
           this.toggleFullscreen();
         });
@@ -476,17 +740,21 @@
             this.video.muted = !this.video.muted;
           } else if (e.code === 'Escape' && this.isFullscreen) {
             this.exitFullscreen();
+          } else if (e.code >= 'Digit1' && e.code <= 'Digit6') {
+            const channelIndex = parseInt(e.code.slice(-1)) - 1;
+            if (this.channels[channelIndex]) {
+              this.switchChannel(this.channels[channelIndex]);
+            }
           }
         });
 
-        // Fullscreen change events - CORREGIDO
+        // Fullscreen change events
         document.addEventListener('fullscreenchange', () => this.handleFullscreenChange());
         document.addEventListener('webkitfullscreenchange', () => this.handleFullscreenChange());
         document.addEventListener('mozfullscreenchange', () => this.handleFullscreenChange());
         document.addEventListener('MSFullscreenChange', () => this.handleFullscreenChange());
       }
 
-      // MÉTODO CORREGIDO para manejar cambios de pantalla completa
       handleFullscreenChange() {
         this.isFullscreen = !!(
           document.fullscreenElement ||
@@ -497,7 +765,6 @@
         this.updateFullscreenButton();
       }
 
-      // MÉTODO CORREGIDO para pantalla completa
       toggleFullscreen() {
         if (!this.isFullscreen) {
           this.enterFullscreen();
@@ -532,7 +799,7 @@
         }
       }
 
-      // CHROMECAST REAL - CORREGIDO
+      // CHROMECAST
       initializeChromecast() {
         window.__onGCastApiAvailable = (isAvailable) => {
           if (isAvailable) {
@@ -549,7 +816,6 @@
           autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED
         });
 
-        // Listener para cambios de estado de cast
         context.addEventListener(
           cast.framework.CastContextEventType.CAST_STATE_CHANGED,
           (event) => {
@@ -564,7 +830,6 @@
           }
         );
 
-        // Mostrar que Chromecast está disponible
         const castBtn = document.getElementById('castBtn');
         castBtn.classList.add('cast-available');
         castBtn.disabled = false;
@@ -592,18 +857,18 @@
         const context = cast.framework.CastContext.getInstance();
         const session = context.getCurrentSession();
         
-        if (session) {
-          const mediaInfo = new chrome.cast.media.MediaInfo(this.streamUrl, 'application/x-mpegURL');
+        if (session && this.currentChannel) {
+          const mediaInfo = new chrome.cast.media.MediaInfo(this.currentChannel.url, 'application/x-mpegURL');
           mediaInfo.metadata = new chrome.cast.media.GenericMediaMetadata();
-          mediaInfo.metadata.title = 'Transmisión Familiar';
-          mediaInfo.metadata.subtitle = 'En vivo desde JFUT';
+          mediaInfo.metadata.title = `Universidad de Chile - ${this.currentChannel.name}`;
+          mediaInfo.metadata.subtitle = 'Transmisión en vivo - La U';
           
           const request = new chrome.cast.media.LoadRequest(mediaInfo);
           
           session.loadMedia(request).then(
             () => {
-              this.video.pause(); // Pausar video local
-              this.showNotification('Transmitiendo a TV');
+              this.video.pause();
+              this.showNotification(`Transmitiendo ${this.currentChannel.name} a TV`);
             },
             (error) => {
               console.error('Error al cargar media en Cast:', error);
@@ -613,12 +878,38 @@
         }
       }
 
+      updateCastMedia() {
+        if (this.isCasting && this.currentChannel) {
+          const context = cast.framework.CastContext.getInstance();
+          const session = context.getCurrentSession();
+          
+          if (session) {
+            const mediaInfo = new chrome.cast.media.MediaInfo(this.currentChannel.url, 'application/x-mpegURL');
+            mediaInfo.metadata = new chrome.cast.media.GenericMediaMetadata();
+            mediaInfo.metadata.title = `Universidad de Chile - ${this.currentChannel.name}`;
+            mediaInfo.metadata.subtitle = 'Transmisión en vivo - La U';
+            
+            const request = new chrome.cast.media.LoadRequest(mediaInfo);
+            
+            session.loadMedia(request).then(
+              () => {
+                this.showNotification(`Chromecast cambiado a ${this.currentChannel.name}`);
+              },
+              (error) => {
+                console.error('Error al cambiar canal en Cast:', error);
+              }
+            );
+          }
+        }
+      }
+
       onCastConnected() {
         this.isCasting = true;
         const castBtn = document.getElementById('castBtn');
         castBtn.innerHTML = '<i class="fas fa-chromecast"></i> Desconectar Cast';
         castBtn.classList.add('casting');
         this.showNotification('Conectado a Chromecast');
+        document.getElementById('statusText').textContent = 'CAST ACTIVO';
       }
 
       onCastDisconnected() {
@@ -627,24 +918,28 @@
         castBtn.innerHTML = '<i class="fas fa-chromecast"></i> Chromecast';
         castBtn.classList.remove('casting');
         this.showNotification('Desconectado de Chromecast');
+        document.getElementById('statusText').textContent = 'EN VIVO DESDE BRICEÑO FUT';
       }
 
       changeQuality(quality) {
         if (this.hls && quality !== 'auto') {
-          // Simulate quality change
           this.showNotification(`Cambiando a calidad: ${quality}`);
         }
       }
 
       reloadStream() {
         this.showLoading();
+        document.getElementById('loadingChannelName').textContent = this.currentChannel.name;
+        
         if (this.hls) {
           this.hls.destroy();
-          this.initializePlayer();
+          setTimeout(() => {
+            this.initializePlayer();
+          }, 500);
         } else {
           this.video.load();
         }
-        this.showNotification('Recargando transmisión...');
+        this.showNotification(`Recargando ${this.currentChannel.name}...`);
       }
 
       updatePlayButton(isPlaying) {
@@ -659,16 +954,16 @@
       updateMuteButton() {
         const btn = document.getElementById('muteBtn');
         if (this.video.muted) {
-          btn.innerHTML = '<i class="fas fa-volume-mute"></i> Activar Audio';
+          btn.innerHTML = '<i class="fas fa-volume-mute"></i> Audio';
         } else {
-          btn.innerHTML = '<i class="fas fa-volume-up"></i> Silenciar';
+          btn.innerHTML = '<i class="fas fa-volume-up"></i> Audio';
         }
       }
 
       updateFullscreenButton() {
         const btn = document.getElementById('fullscreenBtn');
         if (this.isFullscreen) {
-          btn.innerHTML = '<i class="fas fa-compress"></i> Salir Pantalla Completa';
+          btn.innerHTML = '<i class="fas fa-compress"></i> Salir Completa';
         } else {
           btn.innerHTML = '<i class="fas fa-expand"></i> Pantalla Completa';
         }
@@ -680,6 +975,7 @@
 
       hideLoading() {
         document.getElementById('loadingOverlay').style.display = 'none';
+        document.getElementById('errorMessage').style.display = 'none';
       }
 
       showError() {
@@ -688,14 +984,19 @@
       }
 
       showNotification(message) {
-        // Remove existing notifications
+        // Remover notificaciones existentes
         const existingNotifications = document.querySelectorAll('.notification');
         existingNotifications.forEach(notif => notif.remove());
         
-        // Create new notification
+        // Crear nueva notificación
         const notification = document.createElement('div');
         notification.className = 'notification';
-        notification.textContent = message;
+        notification.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <i class="fas fa-info-circle"></i>
+            <span>${message}</span>
+          </div>
+        `;
         
         document.body.appendChild(notification);
         
@@ -712,7 +1013,32 @@
 
     // Initialize player when DOM is loaded
     document.addEventListener('DOMContentLoaded', () => {
-      new ModernM3U8Player();
+      new UniversidadChilePlayer();
+      
+      // Mensaje de bienvenida
+      setTimeout(() => {
+        const welcomeNotification = document.createElement('div');
+        welcomeNotification.className = 'notification';
+        welcomeNotification.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <i class="fas fa-futbol"></i>
+            <div>
+              <div style="font-weight: bold;">¡Vamos la U!</div>
+              <div style="font-size: 12px; opacity: 0.9;">Usa teclas 1-6 para cambiar canales</div>
+            </div>
+          </div>
+        `;
+        document.body.appendChild(welcomeNotification);
+        
+        setTimeout(() => {
+          welcomeNotification.style.animation = 'slideOutRight 0.3s ease';
+          setTimeout(() => {
+            if (welcomeNotification.parentNode) {
+              welcomeNotification.parentNode.removeChild(welcomeNotification);
+            }
+          }, 300);
+        }, 5000);
+      }, 1000);
     });
   </script>
 </body>
